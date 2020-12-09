@@ -1,6 +1,11 @@
 package com.goldenthumb.android.chess
 
 class ChessModel {
+    var piecesBox = mutableSetOf<ChessPiece>()
+
+    init {
+        piecesBox.add(ChessPiece(0,0,ChessPlayer.WHITE, ChessRank.ROOK))
+    }
 
     override fun toString(): String {
         var desc = " \n"
