@@ -14,18 +14,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     override fun onDraw(canvas: Canvas?) {
         val paint = Paint()
-        for (j in 0..3) {
-            for (i in 0..3) {
-                paint.color = Color.LTGRAY
-                canvas?.drawRect(originX + 2 * i * cellSide, originY + 2 * j * cellSide, originX + (2 * i + 1)* cellSide, originY + (2 * j + 1) * cellSide, paint)
-                canvas?.drawRect(originX + (2 * i + 1) * cellSide, originY + (2 * j + 1) * cellSide, originX + (2 * i + 2)* cellSide, originY + (2 * j + 2) * cellSide, paint)
-
-                paint.color = Color.DKGRAY
-                canvas?.drawRect(originX + (2 * i + 1) * cellSide, originY + 2 * j * cellSide, originX + (2 * i + 2) * cellSide, originY + (2 * j + 1) * cellSide, paint)
-                canvas?.drawRect(originX + (2 * i) * cellSide, originY + (2 * j + 1) * cellSide, originX + (2 * i + 1) * cellSide, originY + (2 * j + 2) * cellSide, paint)
+        for (i in 0..7) {
+            for (j in 0..7) {
+                paint.color = if ((i + j) % 2 == 1) Color.DKGRAY else Color.LTGRAY
+                canvas?.drawRect(originX + i * cellSide, originY + j * cellSide, originX + (i + 1)* cellSide, originY + (j + 1) * cellSide, paint)
             }
         }
-
-
     }
 }
