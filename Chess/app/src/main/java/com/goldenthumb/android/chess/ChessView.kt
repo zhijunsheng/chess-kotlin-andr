@@ -31,6 +31,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     )
     private val bitmaps = mutableMapOf<Int, Bitmap>()
     private val paint = Paint()
+    private var fromCol: Int = -1
+    private var fromRow: Int = -1
 
     var chessDelegate: ChessDelegate? = null
 
@@ -55,9 +57,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                val col = ((event.x - originX) / cellSide).toInt()
-                val row = 7 - ((event.y - originY) / cellSide).toInt()
-                Log.d(TAG, "down at ($col, $row)")
+                fromCol = ((event.x - originX) / cellSide).toInt()
+                fromRow = 7 - ((event.y - originY) / cellSide).toInt()
             }
             MotionEvent.ACTION_MOVE -> {
 //                Log.d(TAG, "move")
@@ -65,7 +66,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             MotionEvent.ACTION_UP -> {
                 val col = ((event.x - originX) / cellSide).toInt()
                 val row = 7 - ((event.y - originY) / cellSide).toInt()
-                Log.d(TAG, "up at ($col, $row)")
+                Log.d(TAG, "from ($fromCol, $fromRow) to ($col, $row)")
+                chessDelegate?.movePiece(fromCol, fromRow, col, row)
             }
         }
         return true
