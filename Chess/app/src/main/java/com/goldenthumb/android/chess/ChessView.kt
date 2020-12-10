@@ -1,9 +1,7 @@
 package com.goldenthumb.android.chess
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 
@@ -20,5 +18,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 canvas?.drawRect(originX + i * cellSide, originY + j * cellSide, originX + (i + 1)* cellSide, originY + (j + 1) * cellSide, paint)
             }
         }
+
+        val whiteQueenBitmap = BitmapFactory.decodeResource(resources, R.drawable.queen_white)
+        canvas?.drawBitmap(whiteQueenBitmap, null, Rect(0,0,600,600), paint)
     }
 }
