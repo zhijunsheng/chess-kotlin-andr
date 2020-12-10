@@ -9,6 +9,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private final val originX = 20f
     private final val originY = 200f
     private final val cellSide = 130f
+    private final val lightColor = Color.argb(1f, .9f, .9f, .9f)
+    private final val darkColor = Color.argb(1f, .7f, .7f, .7f)
     private final val imgResIDs = setOf(
             R.drawable.bishop_black,
             R.drawable.bishop_white,
@@ -63,7 +65,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun drawChessboard(canvas: Canvas?) {
         for (i in 0..7) {
             for (j in 0..7) {
-                paint.color = if ((i + j) % 2 == 1) Color.DKGRAY else Color.LTGRAY
+                paint.color = if ((i + j) % 2 == 1) darkColor else lightColor
                 canvas?.drawRect(originX + i * cellSide, originY + j * cellSide, originX + (i + 1)* cellSide, originY + (j + 1) * cellSide, paint)
             }
         }
