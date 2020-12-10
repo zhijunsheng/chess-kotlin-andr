@@ -36,8 +36,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawPieces(canvas: Canvas?) {
-        drawPieceAt(canvas, 0,0, R.drawable.rook_white)
-        drawPieceAt(canvas, 0,1, R.drawable.pawn_white)
+        val chessModel = ChessModel()
+        chessModel.reset()
+
+        for (row in 0..7) {
+            for (col in 0..7) {
+                val piece = chessModel.pieceAt(col, row)
+                if (piece != null) {
+                    drawPieceAt(canvas, col, row, piece.resID)
+                }
+            }
+        }
     }
 
     private fun drawPieceAt(canvas: Canvas?, col: Int, row: Int, resID: Int) {
