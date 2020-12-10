@@ -45,7 +45,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         originX = (canvas.width - chessBoardSide) / 2f
         originY = (canvas.height - chessBoardSide) / 2f
 
-
         drawChessboard(canvas)
         drawPieces(canvas)
     }
