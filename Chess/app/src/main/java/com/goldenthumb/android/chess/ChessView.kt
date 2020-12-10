@@ -3,12 +3,15 @@ package com.goldenthumb.android.chess
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private final val originX = 20f
-    private final val originY = 200f
-    private final val cellSide = 130f
+    private final val scaleFactor = .9f
+    private final var originX = 20f
+    private final var originY = 200f
+    private final var cellSide = 130f
     private final val lightColor = Color.argb(1f, .9f, .9f, .9f)
     private final val darkColor = Color.argb(1f, .7f, .7f, .7f)
     private final val imgResIDs = setOf(
@@ -35,6 +38,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     override fun onDraw(canvas: Canvas?) {
+        Log.d(TAG, "${canvas?.width}, ${canvas?.height}")
+        canvas?.let {
+            val chessBoardSide = min(it.width, it.height) * scaleFactor
+            cellSide = chessBoardSide / 8f
+            originX = (it.width - chessBoardSide) / 2f
+            originY = (it.height - chessBoardSide) / 2f
+        }
+
         drawChessboard(canvas)
         drawPieces(canvas)
     }
