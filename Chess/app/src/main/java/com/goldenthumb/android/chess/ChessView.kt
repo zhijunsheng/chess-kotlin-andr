@@ -32,9 +32,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     override fun onDraw(canvas: Canvas?) {
         drawChessboard(canvas)
+        drawPieces(canvas)
+    }
 
-        val whiteQueenBitmap = bitmaps[R.drawable.queen_black]!!
-        canvas?.drawBitmap(whiteQueenBitmap, null, Rect(0,0,600,600), paint)
+    private fun drawPieces(canvas: Canvas?) {
+        drawPieceAt(canvas, 0,0, R.drawable.rook_white)
+        drawPieceAt(canvas, 0,1, R.drawable.pawn_white)
+    }
+
+    private fun drawPieceAt(canvas: Canvas?, col: Int, row: Int, resID: Int) {
+        val bitmap = bitmaps[resID]!!
+        canvas?.drawBitmap(bitmap, null, RectF(originX + col * cellSide,originY + (7 - row) * cellSide,originX + (col + 1) * cellSide,originY + ((7 - row) + 1) * cellSide), paint)
     }
 
     private fun loadBitmaps() {
