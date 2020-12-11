@@ -24,7 +24,7 @@ class ChessModel {
         piecesBox.add(ChessPiece(toCol, toRow, movingPiece.player, movingPiece.rank, movingPiece.resID))
     }
 
-    private fun reset() {
+    fun reset() {
         piecesBox.removeAll(piecesBox)
         for (i in 0..1) {
             piecesBox.add(ChessPiece(0 + i * 7, 0, ChessPlayer.WHITE, ChessRank.ROOK, R.drawable.rook_white))
