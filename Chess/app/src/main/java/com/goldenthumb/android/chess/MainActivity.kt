@@ -1,10 +1,13 @@
 package com.goldenthumb.android.chess
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import java.io.PrintWriter
+import java.net.Socket
+import java.util.*
+import java.util.concurrent.Executors
 
 const val TAG = "MainActivity"
 
@@ -31,6 +34,14 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
         findViewById<Button>(R.id.connect_button).setOnClickListener {
             Log.d(TAG, "socket client connecting to addr:port ...")
+            Executors.newSingleThreadExecutor().execute {
+                val socket = Socket("192.168.0.15", 50000) // use your IP of localhost
+                val scanner = Scanner(socket.getInputStream())
+                val printWriter = PrintWriter(socket.getOutputStream())
+                while (scanner.hasNextLine()) {
+                    Log.d(TAG, "${ scanner.nextLine() }")
+                }
+            }
         }
     }
 
