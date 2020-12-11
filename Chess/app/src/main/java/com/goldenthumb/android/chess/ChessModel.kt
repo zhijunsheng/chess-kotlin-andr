@@ -19,8 +19,8 @@ class ChessModel {
             piecesBox.remove(it)
         }
 
-        movingPiece.col = toCol
-        movingPiece.row = toRow
+        piecesBox.remove(movingPiece)
+        piecesBox.add(ChessPiece(toCol, toRow, movingPiece.player, movingPiece.rank, movingPiece.resID))
     }
 
     private fun reset() {
