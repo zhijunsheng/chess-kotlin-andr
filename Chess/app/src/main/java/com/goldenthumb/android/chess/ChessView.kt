@@ -8,7 +8,7 @@ import android.view.View
 import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private val scaleFactor = .9f
+    private val scaleFactor = 1.0f
     private var originX = 20f
     private var originY = 200f
     private var cellSide = 130f
