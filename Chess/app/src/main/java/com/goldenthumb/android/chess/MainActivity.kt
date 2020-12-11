@@ -24,6 +24,14 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             chessModel.reset()
             chessView.invalidate()
         }
+
+        findViewById<Button>(R.id.listen_button).setOnClickListener {
+            Log.d(TAG, "socket server listening on port ...")
+        }
+
+        findViewById<Button>(R.id.connect_button).setOnClickListener {
+            Log.d(TAG, "socket client connecting to addr:port ...")
+        }
     }
 
     override fun pieceAt(col: Int, row: Int): ChessPiece? {
