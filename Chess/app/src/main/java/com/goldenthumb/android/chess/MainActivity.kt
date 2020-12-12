@@ -13,10 +13,10 @@ import java.util.concurrent.Executors
 const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), ChessDelegate {
-    private val PORT: Int = 50000
+    private val PORT: Int = 50001
     private var chessModel = ChessModel()
     private lateinit var chessView: ChessView
-    private lateinit var printWriter: PrintWriter
+    private var printWriter: PrintWriter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +66,13 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     override fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
         chessModel.movePiece(fromCol, fromRow, toCol, toRow)
         chessView.invalidate()
-        val moveStr = "$fromCol,$fromRow,$toCol,$toRow"
-        Log.d(TAG, moveStr)
-        Executors.newSingleThreadExecutor().execute {
-            printWriter.println(moveStr)
+
+        printWriter?.let {
+            val moveStr = "$fromCol,$fromRow,$toCol,$toRow"
+            Log.d(TAG, moveStr)
+            Executors.newSingleThreadExecutor().execute {
+                it.println(moveStr)
+            }
         }
     }
 }
