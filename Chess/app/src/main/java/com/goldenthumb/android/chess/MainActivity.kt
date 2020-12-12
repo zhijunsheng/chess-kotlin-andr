@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import java.io.PrintWriter
+import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
 import java.util.concurrent.Executors
@@ -12,7 +13,7 @@ import java.util.concurrent.Executors
 const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), ChessDelegate {
-
+    private val PORT: Int = 50000
     private var chessModel = ChessModel()
     private lateinit var chessView: ChessView
     private lateinit var printWriter: PrintWriter
@@ -31,20 +32,29 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
         findViewById<Button>(R.id.listen_button).setOnClickListener {
             Log.d(TAG, "socket server listening on port ...")
+            Executors.newSingleThreadExecutor().execute {
+                val serverSocket = ServerSocket(PORT)
+                val socket = serverSocket.accept()
+                receiveMove(socket)
+            }
         }
 
         findViewById<Button>(R.id.connect_button).setOnClickListener {
             Log.d(TAG, "socket client connecting to addr:port ...")
             Executors.newSingleThreadExecutor().execute {
-                val socket = Socket("192.168.0.15", 50000) // use your IP of localhost
-                val scanner = Scanner(socket.getInputStream())
-                printWriter = PrintWriter(socket.getOutputStream(), true)
-                while (scanner.hasNextLine()) {
-                    val move = scanner.nextLine().split(",").map { it.toInt() }
-                    runOnUiThread {
-                        movePiece(move[0], move[1], move[2], move[3])
-                    }
-                }
+                val socket = Socket("192.168.0.15", PORT) // use your IP of localhost
+                receiveMove(socket)
+            }
+        }
+    }
+
+    private fun receiveMove(socket: Socket) {
+        val scanner = Scanner(socket.getInputStream())
+        printWriter = PrintWriter(socket.getOutputStream(), true)
+        while (scanner.hasNextLine()) {
+            val move = scanner.nextLine().split(",").map { it.toInt() }
+            runOnUiThread {
+                movePiece(move[0], move[1], move[2], move[3])
             }
         }
     }
