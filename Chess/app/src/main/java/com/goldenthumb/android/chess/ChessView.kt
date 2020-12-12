@@ -83,9 +83,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             MotionEvent.ACTION_UP -> {
                 val col = ((event.x - originX) / cellSide).toInt()
                 val row = 7 - ((event.y - originY) / cellSide).toInt()
-                chessDelegate?.movePiece(fromCol, fromRow, col, row)
+                if (fromCol != col || fromRow != row) {
+                    chessDelegate?.movePiece(fromCol, fromRow, col, row)
+                }
                 movingPiece = null
                 movingPieceBitmap = null
+                invalidate()
             }
         }
         return true

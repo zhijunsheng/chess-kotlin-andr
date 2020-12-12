@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         while (scanner.hasNextLine()) {
             val move = scanner.nextLine().split(",").map { it.toInt() }
             runOnUiThread {
-                movePiece(move[0], move[1], move[2], move[3])
+                chessModel.movePiece(move[0], move[1], move[2], move[3])
+                chessView.invalidate()
             }
         }
     }
@@ -64,12 +65,12 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     }
 
     override fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
+        Log.d(TAG, "$fromCol,$fromRow,$toCol,$toRow")
         chessModel.movePiece(fromCol, fromRow, toCol, toRow)
         chessView.invalidate()
 
         printWriter?.let {
             val moveStr = "$fromCol,$fromRow,$toCol,$toRow"
-            Log.d(TAG, moveStr)
             Executors.newSingleThreadExecutor().execute {
                 it.println(moveStr)
             }
