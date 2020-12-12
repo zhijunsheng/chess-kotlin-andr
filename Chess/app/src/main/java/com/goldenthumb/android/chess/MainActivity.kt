@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
     private var chessModel = ChessModel()
     private lateinit var chessView: ChessView
+    private lateinit var printWriter: PrintWriter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             Executors.newSingleThreadExecutor().execute {
                 val socket = Socket("192.168.0.15", 50000) // use your IP of localhost
                 val scanner = Scanner(socket.getInputStream())
-                val printWriter = PrintWriter(socket.getOutputStream())
+                printWriter = PrintWriter(socket.getOutputStream(), true)
                 while (scanner.hasNextLine()) {
                     val move = scanner.nextLine().split(",").map { it.toInt() }
                     runOnUiThread {
@@ -55,5 +56,10 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     override fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
         chessModel.movePiece(fromCol, fromRow, toCol, toRow)
         chessView.invalidate()
+        val moveStr = "$fromCol,$fromRow,$toCol,$toRow"
+        Log.d(TAG, moveStr)
+        Executors.newSingleThreadExecutor().execute {
+            printWriter.println(moveStr)
+        }
     }
 }
