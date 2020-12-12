@@ -39,7 +39,10 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
                 val scanner = Scanner(socket.getInputStream())
                 val printWriter = PrintWriter(socket.getOutputStream())
                 while (scanner.hasNextLine()) {
-                    Log.d(TAG, "${ scanner.nextLine() }")
+                    val move = scanner.nextLine().split(",").map { it.toInt() }
+                    runOnUiThread {
+                        movePiece(move[0], move[1], move[2], move[3])
+                    }
                 }
             }
         }
