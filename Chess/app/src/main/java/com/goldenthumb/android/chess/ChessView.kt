@@ -95,15 +95,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawPieces(canvas: Canvas) {
-        for (row in 0..7) {
-            for (col in 0..7) {
-                chessDelegate?.pieceAt(col, row)?.let {
-                    if (it != movingPiece) {
-                        drawPieceAt(canvas, col, row, it.resID)
+        for (row in 0 until 8)
+            for (col in 0 until 8)
+                chessDelegate?.pieceAt(col, row)?.let { piece ->
+                    if (piece != movingPiece) {
+                        drawPieceAt(canvas, col, row, piece.resID)
                     }
                 }
-            }
-        }
 
         movingPieceBitmap?.let {
             canvas.drawBitmap(it, null, RectF(movingPieceX - cellSide/2, movingPieceY - cellSide/2,movingPieceX + cellSide/2,movingPieceY + cellSide/2), paint)
@@ -122,11 +120,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawChessboard(canvas: Canvas) {
-        for (row in 0..7) {
-            for (col in 0..7) {
+        for (row in 0 until 8)
+            for (col in 0 until 8)
                 drawSquareAt(canvas, col, row, (col + row) % 2 == 1)
-            }
-        }
+
     }
 
     private fun drawSquareAt(canvas: Canvas, col: Int, row: Int, isDark: Boolean) {

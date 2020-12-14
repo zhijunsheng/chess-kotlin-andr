@@ -7,6 +7,7 @@ class ChessGameUnitTest {
 
     @Test
     fun toString_isCorrect() {
+        println(ChessGame)
         assertTrue(ChessGame.toString().contains("3 . . . . . . . ."))
         assertTrue(ChessGame.toString().contains("0 r n b q k b n r"))
     }
