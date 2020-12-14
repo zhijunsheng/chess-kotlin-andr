@@ -1,20 +1,24 @@
 package com.goldenthumb.android.chess
 
-import junit.framework.TestCase
+import org.junit.Test
+import org.junit.Assert.*
 
-class ChessGameTest : TestCase() {
+class ChessGameUnitTest {
 
-    fun testToString() {
+    @Test
+    fun toString_isCorrect() {
         assertTrue(ChessGame.toString().contains("0 r n b q k b n r"))
     }
 
-    fun testMovePiece() {
+    @Test
+    fun movePiece_isCorrect() {
         assertNull(ChessGame.pieceAt(0, 2))
         ChessGame.movePiece(0,1, 0, 2)
         assertNotNull(ChessGame.pieceAt(0, 2))
     }
 
-    fun testReset() {
+    @Test
+    fun reset_isCorrect() {
         assertNull(ChessGame.pieceAt(0, 2))
         ChessGame.movePiece(0,1, 0, 2)
         assertNotNull(ChessGame.pieceAt(0, 2))
@@ -22,16 +26,9 @@ class ChessGameTest : TestCase() {
         assertNull(ChessGame.pieceAt(0, 2))
     }
 
-    fun testPieceAt() {
+    @Test
+    fun pieceAt_isCorrect() {
         assertNotNull(ChessGame.pieceAt(0, 0))
         assertEquals(ChessPlayer.WHITE, ChessGame.pieceAt(0,0)?.player)
-    }
-
-    fun testAdd() {
-        assertEquals(13, add(3, 10))
-    }
-
-    private fun add(a: Int, b: Int) : Int {
-        return  a + b
     }
 }
