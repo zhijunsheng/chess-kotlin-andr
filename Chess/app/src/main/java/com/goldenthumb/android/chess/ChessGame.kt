@@ -21,7 +21,7 @@ object ChessGame {
         }
 
         piecesBox.remove(movingPiece)
-        piecesBox.add(ChessPiece(toCol, toRow, movingPiece.player, movingPiece.rank, movingPiece.resID))
+        piecesBox.add(movingPiece.copy(col = toCol, row = toRow))
     }
 
     fun reset() {
