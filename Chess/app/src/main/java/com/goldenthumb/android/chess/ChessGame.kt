@@ -69,24 +69,12 @@ object ChessGame {
                     val white = piece.player == ChessPlayer.WHITE
                     desc += " "
                     desc += when (piece.rank) {
-                        ChessRank.KING -> {
-                            if (white) "k" else "K"
-                        }
-                        ChessRank.QUEEN -> {
-                            if (white) "q" else "Q"
-                        }
-                        ChessRank.BISHOP -> {
-                            if (white) "b" else "B"
-                        }
-                        ChessRank.ROOK -> {
-                            if (white) "r" else "R"
-                        }
-                        ChessRank.KNIGHT -> {
-                            if (white) "n" else "N"
-                        }
-                        ChessRank.PAWN -> {
-                            if (white) "p" else "P"
-                        }
+                        ChessRank.KING -> if (white) "k" else "K"
+                        ChessRank.QUEEN -> if (white) "q" else "Q"
+                        ChessRank.BISHOP -> if (white) "b" else "B"
+                        ChessRank.ROOK -> if (white) "r" else "R"
+                        ChessRank.KNIGHT -> if (white) "n" else "N"
+                        ChessRank.PAWN -> if (white) "p" else "P"
                     }
                 }
             }
