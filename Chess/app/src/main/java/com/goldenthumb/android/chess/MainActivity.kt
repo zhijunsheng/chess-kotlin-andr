@@ -14,7 +14,6 @@ const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), ChessDelegate {
     private val PORT: Int = 50001
-    private var chessModel = ChessModel()
     private lateinit var chessView: ChessView
     private var printWriter: PrintWriter? = null
 
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         chessView.chessDelegate = this
 
         findViewById<Button>(R.id.reset_button).setOnClickListener {
-            chessModel.reset()
+            ChessGame.reset()
             chessView.invalidate()
         }
 
@@ -54,19 +53,19 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         while (scanner.hasNextLine()) {
             val move = scanner.nextLine().split(",").map { it.toInt() }
             runOnUiThread {
-                chessModel.movePiece(move[0], move[1], move[2], move[3])
+                ChessGame.movePiece(move[0], move[1], move[2], move[3])
                 chessView.invalidate()
             }
         }
     }
 
     override fun pieceAt(col: Int, row: Int): ChessPiece? {
-        return chessModel.pieceAt(col, row)
+        return ChessGame.pieceAt(col, row)
     }
 
     override fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
         Log.d(TAG, "$fromCol,$fromRow,$toCol,$toRow")
-        chessModel.movePiece(fromCol, fromRow, toCol, toRow)
+        ChessGame.movePiece(fromCol, fromRow, toCol, toRow)
         chessView.invalidate()
 
         printWriter?.let {

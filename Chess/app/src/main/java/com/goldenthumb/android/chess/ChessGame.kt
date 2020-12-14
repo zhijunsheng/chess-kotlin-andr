@@ -2,7 +2,7 @@ package com.goldenthumb.android.chess
 
 import android.util.Log
 
-class ChessModel {
+object ChessGame {
     var piecesBox = mutableSetOf<ChessPiece>()
 
     init {
