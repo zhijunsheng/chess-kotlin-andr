@@ -1,5 +1,6 @@
 package com.goldenthumb.android.chess
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -13,9 +14,12 @@ import java.util.concurrent.Executors
 const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), ChessDelegate {
-    private val PORT: Int = 50001
+    private val socketHost = "127.0.0.1"
+    private val socketPort: Int = 50000
+    private val socketGuestPort: Int = 50001 // used for socket server on emulator
     private lateinit var chessView: ChessView
     private var printWriter: PrintWriter? = null
+    private val isEmulator = Build.FINGERPRINT.contains("generic")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,18 +34,19 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         }
 
         findViewById<Button>(R.id.listen_button).setOnClickListener {
-            Log.d(TAG, "socket server listening on port ...")
+            val port = if (isEmulator) socketGuestPort else socketPort
+            Log.d(TAG, "socket server listening on $port")
             Executors.newSingleThreadExecutor().execute {
-                val serverSocket = ServerSocket(PORT)
+                val serverSocket = ServerSocket(port)
                 val socket = serverSocket.accept()
                 receiveMove(socket)
             }
         }
 
         findViewById<Button>(R.id.connect_button).setOnClickListener {
-            Log.d(TAG, "socket client connecting to addr:port ...")
+            Log.d(TAG, "socket client connecting ...")
             Executors.newSingleThreadExecutor().execute {
-                val socket = Socket("192.168.0.15", PORT) // use your IP of localhost
+                val socket = Socket(socketHost, socketPort)
                 receiveMove(socket)
             }
         }
