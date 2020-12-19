@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     private val socketPort: Int = 50000
     private val socketGuestPort: Int = 50001 // used for socket server on emulator
     private lateinit var chessView: ChessView
+    private lateinit var resetButton: Button
+    private lateinit var listenButton: Button
+    private lateinit var connectButton: Button
     private var printWriter: PrintWriter? = null
     private val isEmulator = Build.FINGERPRINT.contains("generic")
 
@@ -26,14 +29,18 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         setContentView(R.layout.activity_main)
 
         chessView = findViewById<ChessView>(R.id.chess_view)
+        resetButton = findViewById<Button>(R.id.reset_button)
+        listenButton = findViewById<Button>(R.id.listen_button)
+        connectButton = findViewById<Button>(R.id.connect_button)
         chessView.chessDelegate = this
 
-        findViewById<Button>(R.id.reset_button).setOnClickListener {
+        resetButton.setOnClickListener {
             ChessGame.reset()
             chessView.invalidate()
         }
 
-        findViewById<Button>(R.id.listen_button).setOnClickListener {
+        listenButton.setOnClickListener {
+            listenButton.isEnabled = false
             val port = if (isEmulator) socketGuestPort else socketPort
             Log.d(TAG, "socket server listening on $port")
             Executors.newSingleThreadExecutor().execute {
@@ -43,7 +50,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             }
         }
 
-        findViewById<Button>(R.id.connect_button).setOnClickListener {
+        connectButton.setOnClickListener {
             Log.d(TAG, "socket client connecting ...")
             Executors.newSingleThreadExecutor().execute {
                 val socket = Socket(socketHost, socketPort)
