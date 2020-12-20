@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.io.PrintWriter
 import java.net.ServerSocket
 import java.net.Socket
+import java.net.SocketException
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     private lateinit var listenButton: Button
     private lateinit var connectButton: Button
     private var printWriter: PrintWriter? = null
+    private var serverSocket: ServerSocket? = null
     private val isEmulator = Build.FINGERPRINT.contains("generic")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         resetButton.setOnClickListener {
             ChessGame.reset()
             chessView.invalidate()
+            serverSocket?.close()
+            listenButton.isEnabled = true
         }
 
         listenButton.setOnClickListener {
@@ -44,9 +48,15 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             val port = if (isEmulator) socketGuestPort else socketPort
             Log.d(TAG, "socket server listening on $port")
             Executors.newSingleThreadExecutor().execute {
-                val serverSocket = ServerSocket(port)
-                val socket = serverSocket.accept()
-                receiveMove(socket)
+                ServerSocket(port).let { srvSkt ->
+                    serverSocket = srvSkt
+                    try {
+                        val socket = srvSkt.accept()
+                        receiveMove(socket)
+                    } catch (e: SocketException) {
+                        // ignored, socket closed
+                    }
+                }
             }
         }
 
