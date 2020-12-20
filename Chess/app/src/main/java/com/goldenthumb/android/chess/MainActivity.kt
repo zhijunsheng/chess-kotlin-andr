@@ -4,8 +4,10 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.PrintWriter
+import java.net.ConnectException
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketException
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         listenButton.setOnClickListener {
             listenButton.isEnabled = false
             val port = if (isEmulator) socketGuestPort else socketPort
-            Log.d(TAG, "socket server listening on $port")
+            Toast.makeText(this, "listening on $port", Toast.LENGTH_SHORT).show()
             Executors.newSingleThreadExecutor().execute {
                 ServerSocket(port).let { srvSkt ->
                     serverSocket = srvSkt
@@ -63,8 +65,14 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         connectButton.setOnClickListener {
             Log.d(TAG, "socket client connecting ...")
             Executors.newSingleThreadExecutor().execute {
-                val socket = Socket(socketHost, socketPort)
-                receiveMove(socket)
+                try {
+                    val socket = Socket(socketHost, socketPort)
+                    receiveMove(socket)
+                } catch (e: ConnectException) {
+                    runOnUiThread {
+                        Toast.makeText(this, "connection failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
