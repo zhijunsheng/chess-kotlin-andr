@@ -1,7 +1,5 @@
 package com.goldenthumb.android.chess
 
-import android.util.Log
-
 object ChessGame {
     var piecesBox = mutableSetOf<ChessPiece>()
 
@@ -57,28 +55,48 @@ object ChessGame {
         return null
     }
 
+    fun pgn(): String {
+        var desc = " \n"
+        desc += "  a b c d e f g h\n"
+        for (row in 7 downTo 0) {
+            desc += "${row + 1}"
+            desc += boardRow(row)
+            desc += " ${row + 1}"
+            desc += "\n"
+        }
+        desc += "  a b c d e f g h"
+
+        return desc
+    }
+
     override fun toString(): String {
         var desc = " \n"
         for (row in 7 downTo 0) {
             desc += "$row"
-            for (col in 0 until 8) {
-                desc += " "
-                desc += pieceAt(col, row)?.let {
-                    val white = it.player == ChessPlayer.WHITE
-                    when (it.rank) {
-                        ChessRank.KING -> if (white) "k" else "K"
-                        ChessRank.QUEEN -> if (white) "q" else "Q"
-                        ChessRank.BISHOP -> if (white) "b" else "B"
-                        ChessRank.ROOK -> if (white) "r" else "R"
-                        ChessRank.KNIGHT -> if (white) "n" else "N"
-                        ChessRank.PAWN -> if (white) "p" else "P"
-                    }
-                } ?: "."
-            }
+            desc += boardRow(row)
             desc += "\n"
         }
         desc += "  0 1 2 3 4 5 6 7"
 
+        return desc
+    }
+
+    private fun boardRow(row: Int) : String {
+        var desc = ""
+        for (col in 0 until 8) {
+            desc += " "
+            desc += pieceAt(col, row)?.let {
+                val white = it.player == ChessPlayer.WHITE
+                when (it.rank) {
+                    ChessRank.KING -> if (white) "k" else "K"
+                    ChessRank.QUEEN -> if (white) "q" else "Q"
+                    ChessRank.BISHOP -> if (white) "b" else "B"
+                    ChessRank.ROOK -> if (white) "r" else "R"
+                    ChessRank.KNIGHT -> if (white) "n" else "N"
+                    ChessRank.PAWN -> if (white) "p" else "P"
+                }
+            } ?: "."
+        }
         return desc
     }
 }
