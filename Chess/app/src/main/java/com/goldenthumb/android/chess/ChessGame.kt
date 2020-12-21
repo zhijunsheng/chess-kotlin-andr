@@ -55,7 +55,7 @@ object ChessGame {
         return null
     }
 
-    fun pgn(): String {
+    fun pgnBoard(): String {
         var desc = " \n"
         desc += "  a b c d e f g h\n"
         for (row in 7 downTo 0) {
