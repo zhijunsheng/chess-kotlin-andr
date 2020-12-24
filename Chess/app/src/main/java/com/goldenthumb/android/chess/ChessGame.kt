@@ -1,5 +1,7 @@
 package com.goldenthumb.android.chess
 
+import kotlin.math.abs
+
 object ChessGame {
     private var piecesBox = mutableSetOf<ChessPiece>()
 
@@ -8,7 +10,7 @@ object ChessGame {
     }
 
     fun clear() {
-        piecesBox.removeAll(piecesBox)
+        piecesBox.clear()
     }
 
     fun addPiece(piece: ChessPiece) {
@@ -16,12 +18,22 @@ object ChessGame {
     }
 
     fun canKnightMove(from: Square, to: Square): Boolean {
-        
-        return false
+        return abs(from.col - to.col) == 2 && abs(from.row - to.row) == 1 ||
+                abs(from.col - to.col) == 1 && abs(from.row - to.row) == 2
+    }
+
+    fun canMove(from: Square, to: Square): Boolean {
+        val movingPiece = pieceAt(from) ?: return false
+        when(movingPiece.chessman) {
+            Chessman.KNIGHT -> return canKnightMove(from, to)
+        }
+        return true // FIXME
     }
 
     fun movePiece(from: Square, to: Square) {
-        movePiece(from.col, from.row, to.col, to.row)
+        if (canMove(from, to)) {
+            movePiece(from.col, from.row, to.col, to.row)
+        }
     }
 
     private fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
