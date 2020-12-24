@@ -31,7 +31,7 @@ class ChessGameUnitTest {
     @Test
     fun pieceAt_isCorrect() {
         assertNotNull(ChessGame.pieceAt(Square(0, 0)))
-        assertEquals(ChessPlayer.WHITE, ChessGame.pieceAt(Square(0, 0))?.player)
+        assertEquals(Player.WHITE, ChessGame.pieceAt(Square(0, 0))?.player)
     }
 
     @Test

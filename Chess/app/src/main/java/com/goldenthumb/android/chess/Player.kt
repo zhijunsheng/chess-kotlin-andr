@@ -1,6 +1,6 @@
 package com.goldenthumb.android.chess
 
-enum class ChessPlayer {
+enum class Player {
     WHITE,
     BLACK,
 }
