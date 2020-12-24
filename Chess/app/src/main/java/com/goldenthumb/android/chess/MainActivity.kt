@@ -83,21 +83,20 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         while (scanner.hasNextLine()) {
             val move = scanner.nextLine().split(",").map { it.toInt() }
             runOnUiThread {
-                ChessGame.movePiece(move[0], move[1], move[2], move[3])
+                ChessGame.movePiece(Square(move[0], move[1]), Square(move[2], move[3]))
                 chessView.invalidate()
             }
         }
     }
 
-    override fun pieceAt(col: Int, row: Int): ChessPiece? = ChessGame.pieceAt(col, row)
+    override fun pieceAt(square: Square): ChessPiece? = ChessGame.pieceAt(square)
 
-    override fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
-        Log.d(TAG, "$fromCol,$fromRow,$toCol,$toRow")
-        ChessGame.movePiece(fromCol, fromRow, toCol, toRow)
+    override fun movePiece(from: Square, to: Square) {
+        ChessGame.movePiece(from, to)
         chessView.invalidate()
 
         printWriter?.let {
-            val moveStr = "$fromCol,$fromRow,$toCol,$toRow"
+            val moveStr = "${from.col},${from.row},${to.col},${to.row}"
             Executors.newSingleThreadExecutor().execute {
                 it.println(moveStr)
             }

@@ -1,6 +1,6 @@
 package com.goldenthumb.android.chess
 
-enum class ChessRank {
+enum class Chessman {
     KING,
     QUEEN,
     BISHOP,
