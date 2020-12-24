@@ -14,24 +14,24 @@ class ChessGameUnitTest {
 
     @Test
     fun movePiece_isCorrect() {
-        assertNull(ChessGame.pieceAt(0, 2))
-        ChessGame.movePiece(0,1, 0, 2)
-        assertNotNull(ChessGame.pieceAt(0, 2))
+        assertNull(ChessGame.pieceAt(Square(0, 2)))
+        ChessGame.movePiece(Square(0, 1), Square(0, 2))
+        assertNotNull(ChessGame.pieceAt(Square(0, 2)))
     }
 
     @Test
     fun reset_isCorrect() {
-        assertNull(ChessGame.pieceAt(0, 2))
-        ChessGame.movePiece(0,1, 0, 2)
-        assertNotNull(ChessGame.pieceAt(0, 2))
+        assertNull(ChessGame.pieceAt(Square(0, 2)))
+        ChessGame.movePiece(Square(0, 1), Square(0, 2))
+        assertNotNull(ChessGame.pieceAt(Square(0, 2)))
         ChessGame.reset()
-        assertNull(ChessGame.pieceAt(0, 2))
+        assertNull(ChessGame.pieceAt(Square(0, 2)))
     }
 
     @Test
     fun pieceAt_isCorrect() {
-        assertNotNull(ChessGame.pieceAt(0, 0))
-        assertEquals(ChessPlayer.WHITE, ChessGame.pieceAt(0,0)?.player)
+        assertNotNull(ChessGame.pieceAt(Square(0, 0)))
+        assertEquals(ChessPlayer.WHITE, ChessGame.pieceAt(Square(0, 0))?.player)
     }
 
     @Test
