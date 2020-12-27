@@ -23,10 +23,24 @@ object ChessGame {
     }
 
     fun canRookMove(from: Square, to: Square): Boolean {
-        if (from.col == to.col || from.row == to.row) {
+        if (from.col == to.col ||
+            from.row == to.row && isClearHorizontallyBetween(from, to)) {
             return true
         }
         return false
+    }
+
+    private fun isClearHorizontallyBetween(from: Square, to: Square): Boolean {
+        if (from.row != to.row) return false
+        val gap = abs(from.col - to.col) - 1
+        if (gap == 0 ) return true
+        for (i in 1..gap) {
+            val nextCol = if (to.col > from.col) from.col + i else from.col - i
+            if (pieceAt(Square(nextCol, from.row)) != null) {
+                return false
+            }
+        }
+        return true
     }
 
     fun canMove(from: Square, to: Square): Boolean {
