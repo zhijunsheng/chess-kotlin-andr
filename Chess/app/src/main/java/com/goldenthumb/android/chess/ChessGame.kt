@@ -22,10 +22,21 @@ object ChessGame {
                 abs(from.col - to.col) == 1 && abs(from.row - to.row) == 2
     }
 
+    fun canRookMove(from: Square, to: Square): Boolean {
+        if (from.col == to.col || from.row == to.row) {
+            return true
+        }
+        return false
+    }
+
     fun canMove(from: Square, to: Square): Boolean {
+        if (from.col == to.col && from.row == to.row) {
+            return  false
+        }
         val movingPiece = pieceAt(from) ?: return false
         when(movingPiece.chessman) {
             Chessman.KNIGHT -> return canKnightMove(from, to)
+            Chessman.ROOK -> return canRookMove(from, to)
         }
         return true // FIXME
     }
