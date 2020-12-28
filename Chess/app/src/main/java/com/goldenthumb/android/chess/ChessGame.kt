@@ -17,12 +17,12 @@ object ChessGame {
         piecesBox.add(piece)
     }
 
-    fun canKnightMove(from: Square, to: Square): Boolean {
+    private fun canKnightMove(from: Square, to: Square): Boolean {
         return abs(from.col - to.col) == 2 && abs(from.row - to.row) == 1 ||
                 abs(from.col - to.col) == 1 && abs(from.row - to.row) == 2
     }
 
-    fun canRookMove(from: Square, to: Square): Boolean {
+    private fun canRookMove(from: Square, to: Square): Boolean {
         if (from.col == to.col && isClearVerticallyBetween(from, to) ||
             from.row == to.row && isClearHorizontallyBetween(from, to)) {
             return true
@@ -56,6 +56,13 @@ object ChessGame {
         return true
     }
 
+    private fun canBishopMove(from: Square, to: Square): Boolean {
+        if (abs(from.col - to.col) == abs(from.row - to.row)) {
+            return true
+        }
+        return false
+    }
+
     fun canMove(from: Square, to: Square): Boolean {
         if (from.col == to.col && from.row == to.row) {
             return  false
@@ -64,6 +71,7 @@ object ChessGame {
         when(movingPiece.chessman) {
             Chessman.KNIGHT -> return canKnightMove(from, to)
             Chessman.ROOK -> return canRookMove(from, to)
+            Chessman.BISHOP -> return canBishopMove(from, to)
         }
         return true // FIXME
     }

@@ -3,7 +3,7 @@ package com.goldenthumb.android.chess
 import org.junit.Test
 import org.junit.Assert.*
 
-class CanRookMoveUnitTest {
+class RookUnitTest {
 
     @Test
     fun canRookMove_singlePiece() {
