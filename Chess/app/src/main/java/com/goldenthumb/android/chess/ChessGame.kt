@@ -56,9 +56,22 @@ object ChessGame {
         return true
     }
 
+    private fun isClearDiagonally(from: Square, to: Square): Boolean {
+        if (abs(from.col - to.col) != abs(from.row - to.row)) return false
+        val gap = abs(from.col - to.col) - 1
+        for (i in 1..gap) {
+            val nextCol = if (to.col > from.col) from.col + i else from.col - i
+            val nextRow = if (to.row > from.row) from.row + i else from.row - i
+            if (pieceAt(nextCol, nextRow) != null) {
+                return false
+            }
+        }
+        return true
+    }
+
     private fun canBishopMove(from: Square, to: Square): Boolean {
         if (abs(from.col - to.col) == abs(from.row - to.row)) {
-            return true
+            return isClearDiagonally(from, to)
         }
         return false
     }
