@@ -76,6 +76,10 @@ object ChessGame {
         return false
     }
 
+    private fun canQueenMove(from: Square, to: Square): Boolean {
+        return canRookMove(from, to) || canBishopMove(from, to)
+    }
+
     fun canMove(from: Square, to: Square): Boolean {
         if (from.col == to.col && from.row == to.row) {
             return  false
@@ -85,6 +89,7 @@ object ChessGame {
             Chessman.KNIGHT -> return canKnightMove(from, to)
             Chessman.ROOK -> return canRookMove(from, to)
             Chessman.BISHOP -> return canBishopMove(from, to)
+            Chessman.QUEEN -> return canQueenMove(from, to)
         }
         return true // FIXME
     }
