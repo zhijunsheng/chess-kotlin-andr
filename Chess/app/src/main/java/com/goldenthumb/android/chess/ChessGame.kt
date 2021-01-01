@@ -82,10 +82,9 @@ object ChessGame {
 
     private fun canKingMove(from: Square, to: Square): Boolean {
         if (canQueenMove(from, to)) {
-            return abs(from.row - to.row) == 1 &&
-                    (abs(from.col - to.col) == 0 || abs(from.col - to.col) == 1) ||
-                    abs(from.col - to.col) == 1 &&
-                    (abs(from.row - to.row) == 0 || abs(from.row - to.row) == 1)
+            val deltaCol = abs(from.col - to.col)
+            val deltaRow = abs(from.row - to.row)
+            return deltaCol == 1 && deltaRow == 1 || deltaCol + deltaRow == 1
         }
         return false
     }
