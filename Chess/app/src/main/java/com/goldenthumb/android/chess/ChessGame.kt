@@ -89,19 +89,29 @@ object ChessGame {
         return false
     }
 
+    private fun canPawnMove(from: Square, to: Square): Boolean {
+        if (from.row == 1) {
+            return to.row == 2 || to.row == 3
+        } else if (from.row == 6) {
+            return to.row == 5 || to.row == 4
+        }
+        return false
+    }
+
+
     fun canMove(from: Square, to: Square): Boolean {
         if (from.col == to.col && from.row == to.row) {
             return  false
         }
         val movingPiece = pieceAt(from) ?: return false
-        when(movingPiece.chessman) {
-            Chessman.KNIGHT -> return canKnightMove(from, to)
-            Chessman.ROOK -> return canRookMove(from, to)
-            Chessman.BISHOP -> return canBishopMove(from, to)
-            Chessman.QUEEN -> return canQueenMove(from, to)
-            Chessman.KING -> return canKingMove(from, to)
+        return when(movingPiece.chessman) {
+            Chessman.KNIGHT -> canKnightMove(from, to)
+            Chessman.ROOK -> canRookMove(from, to)
+            Chessman.BISHOP -> canBishopMove(from, to)
+            Chessman.QUEEN -> canQueenMove(from, to)
+            Chessman.KING -> canKingMove(from, to)
+            Chessman.PAWN -> canPawnMove(from, to)
         }
-        return true // FIXME
     }
 
     fun movePiece(from: Square, to: Square) {
